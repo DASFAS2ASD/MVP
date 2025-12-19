@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Gold Stamp AI – Identifiera guldstämplar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     :root {
       --bg: #0b1220;
-      --card: #0f172a;
-      --green: #22c55e;
+      --card: #111a2e;
+      --accent: #22c55e;
       --text: #e5e7eb;
-      --muted: #94a3b8;
-      --border: rgba(34,197,94,0.4);
+      --muted: #9ca3af;
+      --border: #1f2a44;
     }
 
     * {
@@ -21,209 +21,185 @@
 
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       background: radial-gradient(circle at top, #0f172a, #020617);
       color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 24px;
+      line-height: 1.6;
     }
 
-    .container {
-      max-width: 520px;
-      width: 100%;
+    header {
+      padding: 48px 20px 32px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: var(--accent);
+    }
+
+    header p {
+      margin-top: 12px;
+      color: var(--muted);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
     }
 
     .card {
-      background: linear-gradient(180deg, #0f172a, #020617);
-      border: 2px solid var(--border);
+      background: linear-gradient(180deg, #111a2e, #0b1220);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 28px;
-      box-shadow: 0 0 40px rgba(34,197,94,0.15);
+      margin-bottom: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    h1 {
-      margin-top: 0;
-      text-align: center;
-      color: var(--green);
-      font-size: 28px;
-      letter-spacing: 0.3px;
-    }
-
-    h1 span {
-      font-size: 22px;
-    }
-
-    p {
-      line-height: 1.6;
-      color: var(--muted);
-      margin-bottom: 16px;
-      font-size: 15px;
-    }
-
-    .highlight {
-      color: var(--text);
-    }
-
-    .feature-list {
-      margin: 20px 0;
-      padding-left: 18px;
-    }
-
-    .feature-list li {
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: #cbd5f5;
-    }
-
-    .upload-box {
-      margin-top: 22px;
-      border: 2px dashed var(--border);
-      border-radius: 14px;
-      padding: 20px;
+    .uploader {
       text-align: center;
     }
 
-    input[type="file"] {
+    .uploader input {
       display: none;
     }
 
     .btn {
-      display: block;
-      width: 100%;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #022c22;
-      border: none;
-      padding: 14px;
-      font-size: 16px;
+      display: inline-block;
+      background: var(--accent);
+      color: #052e16;
+      padding: 14px 26px;
       border-radius: 10px;
-      cursor: pointer;
       font-weight: 600;
-      margin-top: 12px;
+      cursor: pointer;
+      margin: 8px;
+      border: none;
     }
 
     .btn.secondary {
-      background: transparent;
-      color: var(--green);
-      border: 2px solid var(--green);
+      background: #1f2937;
+      color: var(--text);
+      border: 1px solid var(--border);
     }
 
-    .btn:hover {
-      opacity: 0.9;
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
 
-    .preview {
-      margin-top: 16px;
-      display: none;
-    }
-
-    .preview img {
+    .stamp-example img {
       width: 100%;
       border-radius: 10px;
       border: 1px solid var(--border);
+      margin-bottom: 10px;
     }
 
-    .result {
-      margin-top: 20px;
-      padding: 16px;
-      border-radius: 12px;
-      background: rgba(34,197,94,0.08);
-      border: 1px solid var(--border);
-      display: none;
+    .stamp-example h4 {
+      margin: 6px 0;
+      color: var(--accent);
     }
 
-    .result strong {
-      color: var(--green);
-    }
-
-    .footer-note {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #64748b;
+    footer {
       text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="card">
 
-      <h1><span>🧠</span> Gold Stamp AI</h1>
+<header>
+  <h1>🧠 Gold Stamp AI</h1>
+  <p>
+    Ett intelligent analysverktyg för identifiering av guldstämplar.
+    Utvecklat för privatpersoner, handlare och investerare som vill
+    förstå vad de faktiskt äger – innan försäljning eller värdering.
+  </p>
+</header>
 
-      <p class="highlight">
-        Har du gamla guldsmycken, klockor eller arvegods liggande hemma?
-        Guldpriset har stigit kraftigt – och många säljer utan att veta
-        <strong>vad de faktiskt har.</strong>
-      </p>
+<main>
 
-      <p>
-        Gold Stamp AI hjälper dig att snabbt tolka guldstämplar och
-        identifiera om ett föremål är massivt guld, gulddoublé eller
-        guldpläterat – direkt från en bild.
-      </p>
+  <!-- UPPLADDNING -->
+  <div class="card uploader">
+    <h2>Analysera din guldstämpel</h2>
+    <p style="color: var(--muted)">
+      Ladda upp en tydlig bild på stämpeln (insida ring, boettlock, kedjelås).
+    </p>
 
-      <ul class="feature-list">
-        <li>🔍 Identifierar vanliga guldstämplar (18K, 750, 585, GP m.fl.)</li>
-        <li>⚠️ Varnar för vilseledande eller dubbla stämplar</li>
-        <li>📈 Ger en första indikation innan försäljning eller värdering</li>
-        <li>💰 Perfekt inför pantbank, auktion eller privat försäljning</li>
-      </ul>
+    <label class="btn">
+      📷 Välj bild
+      <input type="file" accept="image/*">
+    </label>
 
-      <div class="upload-box">
-        <label for="imageInput" class="btn secondary">📷 Välj bild på guldstämpel</label>
-        <input type="file" id="imageInput" accept="image/*" />
-        <button class="btn" onclick="analyze()">Analysera</button>
+    <button class="btn secondary">Analysera</button>
+  </div>
 
-        <div class="preview" id="preview">
-          <img id="previewImg" />
-        </div>
+  <!-- VAD ÄR DETTA -->
+  <div class="card">
+    <h2>Varför är guldstämplar viktiga?</h2>
+    <p>
+      Guldstämplar används för att indikera metallhalt, tillverkningsland
+      och ibland tillverkare. Problemet är att många stämplar är missförstådda,
+      vilseledande – eller direkt falska.
+    </p>
+    <p>
+      Exempelvis betyder <strong>18K</strong> och <strong>750</strong> massivt guld,
+      medan <strong>GP</strong>, <strong>GEP</strong> eller <strong>Gold Filled</strong>
+      indikerar ytbeläggning.
+    </p>
+  </div>
+
+  <!-- EXEMPEL -->
+  <div class="card">
+    <h2>Exempel på vanliga stämplar</h2>
+
+    <div class="info-grid">
+
+      <div class="stamp-example">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Gold_hallmark_750.jpg">
+        <h4>750 / 18K</h4>
+        <p>Massivt guld (75 %). Vanligt i smycken och vintageklockor.</p>
       </div>
 
-      <div class="result" id="result">
-        <p><strong>Resultat:</strong> Gulddoublé / GP</p>
-        <p><strong>Förtroende:</strong> 92 %</p>
-        <p>
-          <strong>Kommentar:</strong> Stämpeln indikerar ytbehandlat guld.
-          Rekommenderas ej att sälja som massivt guld utan vidare test.
-        </p>
+      <div class="stamp-example">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Gold_filled_mark.jpg">
+        <h4>GP / Gold Plated</h4>
+        <p>Tunn guldplätering. Lågt smältvärde.</p>
       </div>
 
-      <div class="footer-note">
-        Detta verktyg ger en första AI-baserad indikation.
-        För exakt värdering rekommenderas alltid professionell kontroll.
+      <div class="stamp-example">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/585_gold_mark.jpg">
+        <h4>585 / 14K</h4>
+        <p>Vanligt i Europa. 58,5 % guldhalt.</p>
       </div>
 
     </div>
   </div>
 
-  <script>
-    const input = document.getElementById("imageInput");
-    const preview = document.getElementById("preview");
-    const previewImg = document.getElementById("previewImg");
-    const result = document.getElementById("result");
+  <!-- VEM ÄR DETTA FÖR -->
+  <div class="card">
+    <h2>Vem är verktyget för?</h2>
+    <ul>
+      <li>Privatpersoner med guld hemma</li>
+      <li>Klock- och smyckeshandlare</li>
+      <li>Arv- och dödsbohantering</li>
+      <li>Investorer som köper second hand</li>
+    </ul>
+  </div>
 
-    input.addEventListener("change", () => {
-      const file = input.files[0];
-      if (!file) return;
+</main>
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        previewImg.src = reader.result;
-        preview.style.display = "block";
-        result.style.display = "none";
-      };
-      reader.readAsDataURL(file);
-    });
+<footer>
+  © Gold Stamp AI · Informationsbaserat analysverktyg – ej juridisk garanti
+</footer>
 
-    function analyze() {
-      if (!input.files.length) {
-        alert("Välj en bild först.");
-        return;
-      }
-      result.style.display = "block";
-    }
-  </script>
 </body>
 </html>

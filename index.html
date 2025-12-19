@@ -1,84 +1,84 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Gold Stamp AI – MVP</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       background: #0f172a;
       color: #e5e7eb;
-      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
 
     .card {
       background: #020617;
       border: 2px solid #22c55e;
       border-radius: 16px;
-      padding: 32px;
-      max-width: 420px;
+      padding: 24px;
       width: 90%;
+      max-width: 420px;
       text-align: center;
     }
 
     h1 {
       color: #22c55e;
-      margin-bottom: 8px;
     }
 
-    p {
-      color: #9ca3af;
-      font-size: 14px;
+    label {
+      display: block;
+      margin-top: 20px;
+      background: #22c55e;
+      color: #020617;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     input[type="file"] {
-      margin: 20px 0;
-      color: #e5e7eb;
+      display: none;
     }
 
     img {
       max-width: 100%;
+      margin-top: 16px;
       border-radius: 12px;
-      margin-top: 12px;
       display: none;
     }
 
     button {
       margin-top: 16px;
-      background: #22c55e;
-      color: #020617;
-      border: none;
-      padding: 12px 20px;
+      width: 100%;
+      padding: 12px;
       font-size: 16px;
       font-weight: bold;
+      background: #16a34a;
+      color: #020617;
+      border: none;
       border-radius: 10px;
       cursor: pointer;
-      width: 100%;
-    }
-
-    button:hover {
-      background: #16a34a;
     }
 
     .result {
-      margin-top: 20px;
+      margin-top: 16px;
       background: #020617;
       border: 1px solid #334155;
       border-radius: 10px;
-      padding: 16px;
+      padding: 12px;
       display: none;
       text-align: left;
     }
 
     .label {
-      font-weight: bold;
       color: #22c55e;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -86,26 +86,32 @@
 <body>
   <div class="card">
     <h1>🧠 Gold Stamp AI</h1>
-    <p>Ladda upp bild på stämpel eller klockboett</p>
+    <p>Ladda upp bild på guldstämpel</p>
 
-    <input type="file" accept="image/*" id="imageInput" />
-    <img id="preview" />
+    <label for="imageInput">📷 Välj bild</label>
+    <input
+      id="imageInput"
+      type="file"
+      accept="image/*"
+    >
+
+    <img id="preview">
 
     <button onclick="analyze()">Analysera</button>
 
     <div class="result" id="resultBox">
-      <div><span class="label">Resultat:</span> <span id="resultText"></span></div>
-      <div><span class="label">Förtroende:</span> <span id="confidence"></span></div>
-      <div><span class="label">Kommentar:</span> <span id="comment"></span></div>
+      <div><span class="label">Resultat:</span> <span id="res"></span></div>
+      <div><span class="label">Förtroende:</span> <span id="conf"></span></div>
+      <div><span class="label">Kommentar:</span> <span id="comm"></span></div>
     </div>
   </div>
 
   <script>
-    const imageInput = document.getElementById("imageInput");
+    const input = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
 
-    imageInput.addEventListener("change", () => {
-      const file = imageInput.files[0];
+    input.addEventListener("change", () => {
+      const file = input.files[0];
       if (!file) return;
 
       const reader = new FileReader();
@@ -117,39 +123,23 @@
     });
 
     function analyze() {
-      if (!imageInput.files.length) {
+      if (!input.files.length) {
         alert("Ladda upp en bild först");
         return;
       }
 
-      const results = [
-        {
-          text: "18K massivt guld",
-          confidence: "92 %",
-          comment: "Stämpeln är konsekvent med svensk 18K-standard."
-        },
-        {
-          text: "14K guld",
-          confidence: "88 %",
-          comment: "Typisk vikt och märkning för 585 / 14K."
-        },
-        {
-          text: "Gulddoublé / GP",
-          confidence: "95 %",
-          comment: "Avvikande stämpel – troligen ej massivt guld."
-        },
-        {
-          text: "Osäker",
-          confidence: "61 %",
-          comment: "Bilden är otydlig – bättre foto behövs."
-        }
+      const mock = [
+        ["18K massivt guld", "92 %", "Tydlig 750-stämpel"],
+        ["14K guld", "87 %", "585-standard identifierad"],
+        ["Gulddoublé / GP", "95 %", "Pläteringsindikator hittad"],
+        ["Osäker", "63 %", "Bilden är för suddig"]
       ];
 
-      const pick = results[Math.floor(Math.random() * results.length)];
+      const pick = mock[Math.floor(Math.random() * mock.length)];
 
-      document.getElementById("resultText").innerText = pick.text;
-      document.getElementById("confidence").innerText = pick.confidence;
-      document.getElementById("comment").innerText = pick.comment;
+      document.getElementById("res").innerText = pick[0];
+      document.getElementById("conf").innerText = pick[1];
+      document.getElementById("comm").innerText = pick[2];
 
       document.getElementById("resultBox").style.display = "block";
     }

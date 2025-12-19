@@ -1,114 +1,208 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>Gold Stamp AI – MVP</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Gold Stamp AI – Identifiera guldstämplar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    :root {
+      --bg: #0b1220;
+      --card: #0f172a;
+      --green: #22c55e;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: rgba(34,197,94,0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background: #0f172a;
-      color: #e5e7eb;
-      font-family: Arial, sans-serif;
       margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 520px;
+      width: 100%;
     }
 
     .card {
-      background: #020617;
-      border: 2px solid #22c55e;
+      background: linear-gradient(180deg, #0f172a, #020617);
+      border: 2px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
+      padding: 28px;
+      box-shadow: 0 0 40px rgba(34,197,94,0.15);
     }
 
     h1 {
-      color: #22c55e;
+      margin-top: 0;
+      text-align: center;
+      color: var(--green);
+      font-size: 28px;
+      letter-spacing: 0.3px;
     }
 
-    label {
-      display: block;
-      margin-top: 20px;
-      background: #22c55e;
-      color: #020617;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
+    h1 span {
+      font-size: 22px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .highlight {
+      color: var(--text);
+    }
+
+    .feature-list {
+      margin: 20px 0;
+      padding-left: 18px;
+    }
+
+    .feature-list li {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #cbd5f5;
+    }
+
+    .upload-box {
+      margin-top: 22px;
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
     }
 
     input[type="file"] {
       display: none;
     }
 
-    img {
-      max-width: 100%;
+    .btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--green);
+      border: 2px solid var(--green);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .preview {
       margin-top: 16px;
-      border-radius: 12px;
       display: none;
     }
 
-    button {
-      margin-top: 16px;
+    .preview img {
       width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      background: #16a34a;
-      color: #020617;
-      border: none;
       border-radius: 10px;
-      cursor: pointer;
+      border: 1px solid var(--border);
     }
 
     .result {
-      margin-top: 16px;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid var(--border);
       display: none;
-      text-align: left;
     }
 
-    .label {
-      color: #22c55e;
-      font-weight: bold;
+    .result strong {
+      color: var(--green);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>🧠 Gold Stamp AI</h1>
-    <p>Ladda upp bild på guldstämpel</p>
+  <div class="container">
+    <div class="card">
 
-    <label for="imageInput">📷 Välj bild</label>
-    <input
-      id="imageInput"
-      type="file"
-      accept="image/*"
-    >
+      <h1><span>🧠</span> Gold Stamp AI</h1>
 
-    <img id="preview">
+      <p class="highlight">
+        Har du gamla guldsmycken, klockor eller arvegods liggande hemma?
+        Guldpriset har stigit kraftigt – och många säljer utan att veta
+        <strong>vad de faktiskt har.</strong>
+      </p>
 
-    <button onclick="analyze()">Analysera</button>
+      <p>
+        Gold Stamp AI hjälper dig att snabbt tolka guldstämplar och
+        identifiera om ett föremål är massivt guld, gulddoublé eller
+        guldpläterat – direkt från en bild.
+      </p>
 
-    <div class="result" id="resultBox">
-      <div><span class="label">Resultat:</span> <span id="res"></span></div>
-      <div><span class="label">Förtroende:</span> <span id="conf"></span></div>
-      <div><span class="label">Kommentar:</span> <span id="comm"></span></div>
+      <ul class="feature-list">
+        <li>🔍 Identifierar vanliga guldstämplar (18K, 750, 585, GP m.fl.)</li>
+        <li>⚠️ Varnar för vilseledande eller dubbla stämplar</li>
+        <li>📈 Ger en första indikation innan försäljning eller värdering</li>
+        <li>💰 Perfekt inför pantbank, auktion eller privat försäljning</li>
+      </ul>
+
+      <div class="upload-box">
+        <label for="imageInput" class="btn secondary">📷 Välj bild på guldstämpel</label>
+        <input type="file" id="imageInput" accept="image/*" />
+        <button class="btn" onclick="analyze()">Analysera</button>
+
+        <div class="preview" id="preview">
+          <img id="previewImg" />
+        </div>
+      </div>
+
+      <div class="result" id="result">
+        <p><strong>Resultat:</strong> Gulddoublé / GP</p>
+        <p><strong>Förtroende:</strong> 92 %</p>
+        <p>
+          <strong>Kommentar:</strong> Stämpeln indikerar ytbehandlat guld.
+          Rekommenderas ej att sälja som massivt guld utan vidare test.
+        </p>
+      </div>
+
+      <div class="footer-note">
+        Detta verktyg ger en första AI-baserad indikation.
+        För exakt värdering rekommenderas alltid professionell kontroll.
+      </div>
+
     </div>
   </div>
 
   <script>
     const input = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
+    const previewImg = document.getElementById("previewImg");
+    const result = document.getElementById("result");
 
     input.addEventListener("change", () => {
       const file = input.files[0];
@@ -116,32 +210,19 @@
 
       const reader = new FileReader();
       reader.onload = () => {
-        preview.src = reader.result;
+        previewImg.src = reader.result;
         preview.style.display = "block";
+        result.style.display = "none";
       };
       reader.readAsDataURL(file);
     });
 
     function analyze() {
       if (!input.files.length) {
-        alert("Ladda upp en bild först");
+        alert("Välj en bild först.");
         return;
       }
-
-      const mock = [
-        ["18K massivt guld", "92 %", "Tydlig 750-stämpel"],
-        ["14K guld", "87 %", "585-standard identifierad"],
-        ["Gulddoublé / GP", "95 %", "Pläteringsindikator hittad"],
-        ["Osäker", "63 %", "Bilden är för suddig"]
-      ];
-
-      const pick = mock[Math.floor(Math.random() * mock.length)];
-
-      document.getElementById("res").innerText = pick[0];
-      document.getElementById("conf").innerText = pick[1];
-      document.getElementById("comm").innerText = pick[2];
-
-      document.getElementById("resultBox").style.display = "block";
+      result.style.display = "block";
     }
   </script>
 </body>

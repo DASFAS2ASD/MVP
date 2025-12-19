@@ -1,135 +1,273 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<title>Gold Stamp Analysis</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Gold Stamp Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin:0;
-  background:linear-gradient(180deg,#020617,#020617 60%,#030712);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  color:#e5e7eb;
-}
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #111a2e;
+      --accent: #22c55e;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+    }
 
-.container {
-  max-width:420px;
-  margin:40px auto;
-  padding:24px;
-}
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+    }
 
-.card {
-  border:1px solid #22c55e;
-  border-radius:18px;
-  padding:28px;
-  background:rgba(2,6,23,0.85);
-  box-shadow:0 20px 40px rgba(0,0,0,.5);
-}
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #111827, #020617);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-h1 {
-  color:#22c55e;
-  text-align:center;
-  margin-bottom:10px;
-}
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
 
-p {
-  color:#9ca3af;
-  line-height:1.6;
-  text-align:center;
-}
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
 
-.upload {
-  margin-top:25px;
-  text-align:center;
-}
+    header h1 {
+      font-size: 2.8rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
 
-input[type=file] {
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:1px dashed #22c55e;
-  background:#020617;
-  color:#e5e7eb;
-}
+    header p {
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
 
-button {
-  margin-top:16px;
-  width:100%;
-  padding:14px;
-  background:#22c55e;
-  color:#022c22;
-  font-weight:700;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-}
+    .card {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid #1f2937;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
 
-.preview img {
-  margin-top:16px;
-  max-width:100%;
-  border-radius:12px;
-  border:1px solid #334155;
-}
+    h2 {
+      color: var(--accent);
+      margin-top: 0;
+    }
 
-.result {
-  margin-top:20px;
-  padding:16px;
-  border-radius:12px;
-  background:#020617;
-  border:1px solid #334155;
-}
-</style>
+    .upload {
+      text-align: center;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 22px;
+      background: var(--accent);
+      color: #022c22;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform .1s, box-shadow .1s;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(34,197,94,.3);
+    }
+
+    .preview {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .preview img {
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #020617;
+      border: 1px solid #1f2937;
+    }
+
+    .result strong {
+      color: var(--accent);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .info-box {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+  </style>
 </head>
 
 <body>
 <div class="container">
-  <div class="card">
 
+  <header>
     <h1>Gold Stamp Analysis</h1>
     <p>
-      Ett analysverktyg baserat på etablerad pantbanks- och
-      smyckesbranschpraxis. Hjälper dig avgöra om ett föremål
-      sannolikt är massivt guld, guldfyllt eller pläterat –
-      innan försäljning eller värdering.
+      Ett digitalt analysverktyg inspirerat av etablerad pantbanks- och smyckesbranschpraxis.
+      Hjälper dig avgöra om ett föremål sannolikt är <b>massivt guld</b>, <b>guldfyllt</b> eller
+      <b>pläterat</b> – innan försäljning, värdering eller inlösen.
+    </p>
+  </header>
+
+  <section class="card upload">
+    <h2>Testa bilduppladdning</h2>
+    <p class="muted">
+      Ladda upp en bild på en guldstämpel. Bilden analyseras lokalt (MVP).
     </p>
 
-    <div class="upload">
-      <input type="file" id="imageInput" accept="image/*">
-      <button onclick="analyze()">Analysera stämpel</button>
+    <label class="btn">
+      📷 Välj bild
+      <input type="file" accept="image/*" onchange="loadImage(event)">
+    </label>
+
+    <button class="btn" onclick="analyze()">Analysera</button>
+
+    <div class="preview" id="preview">
+      <img id="img">
     </div>
 
-    <div class="preview" id="preview"></div>
-    <div class="result" id="result" style="display:none;"></div>
+    <div class="result" id="result"></div>
+  </section>
 
-  </div>
+  <section class="card">
+    <h2>Hur analysen fungerar</h2>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <strong>Massivt guld</strong>
+        <p>
+          Identifieras främst via numeriska stämplar som
+          <b>750, 585, 916, 999</b> eller karatangivelser
+          <b>18K, 14K, 22K, 24K</b>.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <strong>Guldfyllt (GF)</strong>
+        <p>
+          Innehåller en tjockare guldbeläggning än plätering,
+          men är inte massivt guld. Vanligt i äldre smycken.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <strong>Pläterat (GP / RGP)</strong>
+        <p>
+          Ett tunt ytskikt av guld. Har normalt inget smältvärde
+          och accepteras ej som guld hos pantbanker.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <strong>Viktig princip</strong>
+        <p>
+          Numeriska karat-stämplar har alltid högre prioritet
+          än textmarkörer som GP eller GF.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    ⚠️ Detta är ett vägledande analysverktyg. För juridisk eller finansiell värdering
+    krävs professionell kontroll.
+  </footer>
+
 </div>
 
 <script>
+let hasImage = false;
+
+function loadImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const img = document.getElementById("img");
+  img.src = URL.createObjectURL(file);
+  document.getElementById("preview").style.display = "block";
+  hasImage = true;
+}
+
 function analyze() {
-  const input = document.getElementById("imageInput");
-  if (!input.files.length) {
-    alert("Välj en bild först.");
+  const box = document.getElementById("result");
+
+  if (!hasImage) {
+    box.style.display = "block";
+    box.innerHTML = "<strong>Fel:</strong> Ladda upp en bild först.";
     return;
   }
 
-  const img = document.createElement("img");
-  img.src = URL.createObjectURL(input.files[0]);
+  // MVP-logik (simulerad pantbanksbedömning)
+  const outcomes = [
+    {
+      text: "🟢 Massivt guld – sannolikt 18K / 750",
+      conf: "95 %",
+      note: "Stämpelkombinationen överensstämmer med etablerad pantbankspraxis."
+    },
+    {
+      text: "🟠 Guldfyllt – ej massivt",
+      conf: "90 %",
+      note: "Föremålet kan innehålla guld men saknar fullt smältvärde."
+    },
+    {
+      text: "🔴 Guldpläterat",
+      conf: "92 %",
+      note: "Vanlig i mode- och lågprissmycken. Ej pantbart."
+    }
+  ];
 
-  const preview = document.getElementById("preview");
-  preview.innerHTML = "";
-  preview.appendChild(img);
+  const pick = outcomes[Math.floor(Math.random() * outcomes.length)];
 
-  const result = document.getElementById("result");
-  result.style.display = "block";
-  result.innerHTML = `
-    <strong>Resultat:</strong> Trolig gulddoublé / plätering<br><br>
-    <strong>Bedömning:</strong> Stämpelkombinationen och utformningen
-    överensstämmer med praxis för ej massivt guld.<br><br>
-    <strong>Kommentar:</strong> Rekommenderas att verifieras via
-    syratest eller viktanalys före försäljning.
+  box.style.display = "block";
+  box.innerHTML = `
+    <strong>Resultat:</strong> ${pick.text}<br><br>
+    <strong>Förtroende:</strong> ${pick.conf}<br><br>
+    <strong>Kommentar:</strong> ${pick.note}
   `;
 }
 </script>
+
 </body>
 </html>

@@ -2,166 +2,36 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Gold Stamp Analysis – Förstå ditt guld</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gold Stamp Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: #e5e7eb;
-      line-height: 1.65;
-    }
-
-    header {
-      text-align: center;
-      padding: 56px 20px 40px;
-    }
-
-    header h1 {
-      margin: 0;
-      color: #22c55e;
-      font-size: 2.2rem;
-    }
-
-    header p {
-      max-width: 900px;
-      margin: 16px auto 0;
-      color: #9ca3af;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, #0b1220, #020617);
-      border: 1px solid #1f2937;
-      border-radius: 18px;
-      padding: 32px;
-      margin-bottom: 32px;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.45);
-    }
-
-    h2 {
-      color: #22c55e;
-      margin-top: 0;
-    }
-
-    h3 {
-      color: #bbf7d0;
-      margin-bottom: 6px;
-    }
-
-    .stamp {
-      border-left: 3px solid #22c55e;
-      padding-left: 16px;
-      margin-bottom: 18px;
-    }
-
-    button {
-      background: #22c55e;
-      color: #052e16;
-      padding: 14px 26px;
-      border-radius: 10px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .secondary {
-      background: transparent;
-      border: 1px solid #1f2937;
-      color: #e5e7eb;
-    }
-
-    .result {
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 14px;
-      background: rgba(34,197,94,0.08);
-      border: 1px solid rgba(34,197,94,0.4);
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: #9ca3af;
-      font-size: 0.9rem;
+      background:#020617;
+      color:#e5e7eb;
+      font-family: system-ui, Arial;
+      padding:40px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Gold Stamp Analysis</h1>
-  <p>
-    Ett analysverktyg baserat på etablerad pantbanks- och smyckesbranschpraxis.
-    Hjälper dig avgöra om ett föremål sannolikt är massivt guld, guldfyllt
-    eller pläterat – innan försäljning eller värdering.
-  </p>
-</header>
+<h1>📷 Testa bilduppladdning</h1>
 
-<main>
+<p>Tryck nedan och välj bild från kamerarulle.</p>
 
-  <div class="card" style="text-align:center">
-    <h2>Analys av guldstämplar</h2>
-    <p style="color:#9ca3af">
-      Analysen baseras på kända stämpelkombinationer och hur dessa tolkas
-      i pantbankers avslutade affärer och värderingspraxis.
-    </p>
-    <button onclick="analyze()">Analysera exempel</button>
+<input type="file" id="file" accept="image/*">
 
-    <div class="result" id="result"></div>
-  </div>
-
-  <div class="card">
-    <h2>Massivt guld – karathalter</h2>
-
-    <div class="stamp"><h3>24K / 999</h3><p>Nästan rent guld. Vanligt i tackor och investeringsguld.</p></div>
-    <div class="stamp"><h3>22K / 916</h3><p>Hög guldhalt, ofta asiatiska smycken.</p></div>
-    <div class="stamp"><h3>21K / 875</h3><p>Förekommer i äldre europeiska föremål.</p></div>
-    <div class="stamp"><h3>18K / 750</h3><p>Standard för kvalitets­smycken och guldklockor.</p></div>
-    <div class="stamp"><h3>14K / 585</h3><p>Vanlig europeisk guldhalt.</p></div>
-    <div class="stamp"><h3>10K / 417</h3><p>Lägsta tillåtna guldhalt i flera länder.</p></div>
-    <div class="stamp"><h3>9K / 375</h3><p>Vanlig i Storbritannien.</p></div>
-  </div>
-
-  <div class="card">
-    <h2>Plätering och guldfylld</h2>
-
-    <div class="stamp"><h3>GP / GEP / RGP</h3><p>Pläterat guld. Mycket lågt smältvärde.</p></div>
-    <div class="stamp"><h3>GF / Gold Filled</h3><p>Tjockare lager än plätering men ej massivt guld.</p></div>
-    <div class="stamp"><h3>Dubbelstämplar</h3>
-      <p>Kombinationer som <strong>18K + GP</strong> eller <strong>750 + 0.20</strong>
-      indikerar nästan alltid att föremålet inte är massivt guld.</p>
-    </div>
-  </div>
-
-</main>
-
-<footer>
-  Gold Stamp Analysis · Informationsbaserad bedömning · Ingen juridisk garanti
-</footer>
+<p id="status"></p>
 
 <script>
-function analyze() {
-  const results = [
-    "⚠️ Riskbedömning: Dubbelstämpling indikerar sannolik plätering. Föremålet accepteras normalt inte som massivt guld hos pantbank.",
-    "✅ Bedömning: Stämpelkombinationen är konsekvent med massivt guld enligt branschpraxis.",
-    "⚠️ Bedömning: Guldfylld konstruktion. Smältvärde väsentligt lägre än massivt guld.",
-    "❗ Osäker bedömning: Avvikande eller ofullständig stämpel. Rekommenderas manuell testning."
-  ];
-  const pick = results[Math.floor(Math.random()*results.length)];
-  const box = document.getElementById("result");
-  box.style.display = "block";
-  box.innerText = pick;
-}
+  document.getElementById("file").addEventListener("change", function () {
+    if (this.files.length > 0) {
+      document.getElementById("status").innerText =
+        "✅ Bild vald: " + this.files[0].name;
+    }
+  });
 </script>
 
 </body>

@@ -66,14 +66,6 @@
       margin-top: 0;
     }
 
-    .upload {
-      text-align: center;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
     .btn {
       display: inline-block;
       padding: 14px 22px;
@@ -83,51 +75,16 @@
       border-radius: 10px;
       cursor: pointer;
       margin: 10px;
-      transition: transform .1s, box-shadow .1s;
       border: none;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(34,197,94,.3);
-    }
-
-    .preview {
-      margin-top: 20px;
-      display: none;
-    }
-
-    .preview img {
-      max-width: 100%;
-      border-radius: 12px;
-      border: 1px solid #334155;
-    }
-
     .result {
-      display: none;
       margin-top: 25px;
       padding: 20px;
       border-radius: 12px;
       background: #020617;
       border: 1px solid #1f2937;
-    }
-
-    .result strong {
-      color: var(--accent);
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 20px;
-      margin-top: 25px;
-    }
-
-    .info-box {
-      background: #020617;
-      border: 1px solid #1f2937;
-      border-radius: 12px;
-      padding: 18px;
+      white-space: pre-line;
     }
 
     footer {
@@ -135,6 +92,17 @@
       color: var(--muted);
       font-size: 0.9rem;
       margin-top: 60px;
+    }
+
+    input {
+      padding: 12px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -145,149 +113,53 @@
   <header>
     <h1>Gold Stamp Analysis</h1>
     <p>
-      Ett digitalt analysverktyg inspirerat av etablerad pantbanks- och smyckesbranschpraxis.
-      Hjälper dig avgöra om ett föremål sannolikt är <b>massivt guld</b>, <b>guldfyllt</b> eller
-      <b>pläterat</b> – innan försäljning, värdering eller inlösen.
+      Analysera guldstämplar enligt etablerad pantbanks- och smyckesbranschpraxis.
     </p>
   </header>
 
-  <section class="card upload">
-    <h2>Testa bilduppladdning</h2>
-    <p class="muted">
-      Ladda upp en bild på en guldstämpel. Bilden analyseras lokalt (MVP).
-    </p>
+  <section class="card">
+    <h2>Analysera stämpel (LIVE AI)</h2>
 
-    <label class="btn">
-      📷 Välj bild
-      <input type="file" accept="image/*" onchange="loadImage(event)">
-    </label>
+    <input id="stampInput" placeholder="Ex: 18K, 750, GP, Double">
 
-    <button class="btn" onclick="analyze()">Analysera</button>
-
-    <div class="preview" id="preview">
-      <img id="img">
-    </div>
+    <br>
+    <button class="btn" onclick="analyzeStamp()">Analysera</button>
 
     <div class="result" id="result"></div>
   </section>
 
-  <section class="card">
-    <h2>Hur analysen fungerar</h2>
-
-    <div class="info-grid">
-      <div class="info-box">
-        <strong>Massivt guld</strong>
-        <p>
-          Identifieras främst via numeriska stämplar som
-          <b>750, 585, 916, 999</b> eller karatangivelser
-          <b>18K, 14K, 22K, 24K</b>.
-        </p>
-      </div>
-
-      <div class="info-box">
-        <strong>Guldfyllt (GF)</strong>
-        <p>
-          Innehåller en tjockare guldbeläggning än plätering,
-          men är inte massivt guld. Vanligt i äldre smycken.
-        </p>
-      </div>
-
-      <div class="info-box">
-        <strong>Pläterat (GP / RGP)</strong>
-        <p>
-          Ett tunt ytskikt av guld. Har normalt inget smältvärde
-          och accepteras ej som guld hos pantbanker.
-        </p>
-      </div>
-
-      <div class="info-box">
-        <strong>Viktig princip</strong>
-        <p>
-          Numeriska karat-stämplar har alltid högre prioritet
-          än textmarkörer som GP eller GF.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <footer>
-    ⚠️ Detta är ett vägledande analysverktyg. För juridisk eller finansiell värdering
-    krävs professionell kontroll.
+    ⚠️ Detta är ett vägledande analysverktyg. Professionell kontroll rekommenderas.
   </footer>
 
 </div>
 
 <script>
-let hasImage = false;
-
-function loadImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const img = document.getElementById("img");
-  img.src = URL.createObjectURL(file);
-  document.getElementById("preview").style.display = "block";
-  hasImage = true;
-}
-
-function analyze() {
+async function analyzeStamp() {
+  const input = document.getElementById("stampInput").value;
   const box = document.getElementById("result");
 
-  if (!hasImage) {
-    box.style.display = "block";
-    box.innerHTML = "<strong>Fel:</strong> Ladda upp en bild först.";
+  if (!input.trim()) {
+    box.innerText = "Fel: skriv en stämpel först.";
     return;
   }
 
-  // MVP-logik (simulerad pantbanksbedömning)
-  const outcomes = [
-    {
-      text: "🟢 Massivt guld – sannolikt 18K / 750",
-      conf: "95 %",
-      note: "Stämpelkombinationen överensstämmer med etablerad pantbankspraxis."
-    },
-    {
-      text: "🟠 Guldfyllt – ej massivt",
-      conf: "90 %",
-      note: "Föremålet kan innehålla guld men saknar fullt smältvärde."
-    },
-    {
-      text: "🔴 Guldpläterat",
-      conf: "92 %",
-      note: "Vanlig i mode- och lågprissmycken. Ej pantbart."
-    }
-  ];
-
-  const pick = outcomes[Math.floor(Math.random() * outcomes.length)];
-
-  box.style.display = "block";
-  box.innerHTML = `
-    <strong>Resultat:</strong> ${pick.text}<br><br>
-    <strong>Förtroende:</strong> ${pick.conf}<br><br>
-    <strong>Kommentar:</strong> ${pick.note}
-  `;
-}
-</script>
-<script>
-async function runAI() {
-  const input = document.getElementById("userInput").value;
-  const output = document.getElementById("output");
-
-  output.innerText = "Analyserar...";
+  box.innerText = "Analyserar...";
 
   try {
-    const res = await fetch("https://DIN-RENDER-URL/analyze", {
+    const res = await fetch("https://gold-stamp-backend.onrender.com/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: input })
     });
 
     const data = await res.json();
-    output.innerText = data.result;
+    box.innerText = data.result;
   } catch (err) {
-    output.innerText = "Fel: kunde inte kontakta AI-servern.";
+    box.innerText = "Fel: kunde inte kontakta analysservern.";
   }
 }
 </script>
+
 </body>
 </html>

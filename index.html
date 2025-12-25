@@ -268,6 +268,26 @@ function analyze() {
   `;
 }
 </script>
+<script>
+async function runAI() {
+  const input = document.getElementById("userInput").value;
+  const output = document.getElementById("output");
 
+  output.innerText = "Analyserar...";
+
+  try {
+    const res = await fetch("https://DIN-RENDER-URL/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input })
+    });
+
+    const data = await res.json();
+    output.innerText = data.result;
+  } catch (err) {
+    output.innerText = "Fel: kunde inte kontakta AI-servern.";
+  }
+}
+</script>
 </body>
 </html>
